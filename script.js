@@ -1,6 +1,5 @@
-const apiUrl = 'https://crypto-coral-rho.vercel.app/proxy';
+const apiUrl = '/api/crypto'; // Use relative path for API calls
 const cryptoListElement = document.getElementById('crypto-list');
-
 
 const specificCoins = [
     'BTC', 'ETH', 'BCH', 'XRP', 'EOS', 'LTC', 'TRX',
@@ -22,13 +21,11 @@ const specificCoins = [
 ];
 
 function fetchTopGainingCryptos() {
-    axios.get(apiUrl)
-        .then(response => {
-            const data = response.data;
-
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
             // Filter to include only specific coins
             const filteredData = data.filter(crypto => specificCoins.includes(crypto.symbol));
-            //const filteredData = data;
             // Filter and sort based on positive min1 performance
             const gainingCryptos = filteredData.filter(crypto => crypto.performance && crypto.performance.min1 >= 0.20)
                 .sort((a, b) => b.performance.min1 - a.performance.min1);
@@ -39,9 +36,6 @@ function fetchTopGainingCryptos() {
             console.error('Error fetching crypto data:', error);
         });
 }
-
-
-
 
 function displayCryptos(cryptos) {
     cryptoListElement.innerHTML = ''; // Clear existing list
@@ -55,9 +49,8 @@ function displayCryptos(cryptos) {
     });
 }
 
-
 // Fetch the data immediately on load
 fetchTopGainingCryptos();
 
-// Fetch the data every 30SEC minute
+// Fetch the data every 60 seconds
 setInterval(fetchTopGainingCryptos, 60000);
