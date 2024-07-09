@@ -1,4 +1,4 @@
-const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000/proxy';
+const apiUrl = 'https://crypto-coral-rho.vercel.app/proxy';
 const cryptoListElement = document.getElementById('crypto-list');
 
 
