@@ -21,6 +21,7 @@ const specificCoins = [
 ];
 
 function fetchTopGainingCryptos() {
+    console.log(apiUrl)
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {

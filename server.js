@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-app.get('/proxy', async (req, res) => {
+app.get('/api/crypto', async (req, res) => {
   try {
     const response = await axios.get('https://cryptobubbles.net/backend/data/bubbles1000.usd.json');
     res.json(response.data);
