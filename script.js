@@ -21,7 +21,6 @@ const specificCoins = [
 ];
 
 function fetchTopGainingCryptos() {
-    console.log(apiUrl)
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -43,7 +42,7 @@ function displayCryptos(cryptos) {
     cryptos.forEach(crypto => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `
-      <img src="https://cryptobubbles.net/${crypto.image}" alt="${crypto.name}" width="20" height="20">
+      <img src="https://cryptobubbles.net/backend/data/${crypto.image}" alt="${crypto.name}" width="20" height="20">
       ${crypto.name} (${crypto.symbol}) - Market Cap: ${crypto.marketcap.toLocaleString()} - 1 Min Gain: ${crypto.performance.min1}%
     `;
         cryptoListElement.appendChild(listItem);
