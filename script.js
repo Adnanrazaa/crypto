@@ -1,5 +1,8 @@
 const apiUrl = '/api/crypto'; // Use relative path for API calls
 const cryptoListElement = document.getElementById('crypto-list');
+const gainersTab = document.getElementById('gainers-tab');
+const losersTab = document.getElementById('losers-tab');
+let activeTab = 'gainers';
 
 const specificCoins = [
     'BTC', 'ETH', 'BCH', 'XRP', 'EOS', 'LTC', 'TRX',
@@ -20,17 +23,27 @@ const specificCoins = [
     'PIXEL', 'W', 'GLM', 'MANTA', 'SEI', 'GLMR', 'EGLD', 'AVAX', 'INJ', '1INCH'
 ];
 
-function fetchTopGainingCryptos() {
+function fetchCryptos() {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             // Filter to include only specific coins
-            const filteredData = data.filter(crypto => specificCoins.includes(crypto.symbol));
-            // Filter and sort based on positive min1 performance
-            const gainingCryptos = filteredData.filter(crypto => crypto.performance && crypto.performance.min1 >= 0.20)
-                .sort((a, b) => b.performance.min1 - a.performance.min1);
+            //const filteredData = data.filter(crypto => specificCoins.includes(crypto.symbol));
+            const filteredData = data;
 
-            displayCryptos(gainingCryptos);
+            let cryptosToDisplay;
+
+            if (activeTab === 'gainers') {
+                // Filter and sort based on positive min1 performance
+                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance.min1 >= 0.20)
+                    .sort((a, b) => b.performance.min1 - a.performance.min1);
+            } else {
+                // Filter and sort based on negative min1 performance
+                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance.min1 <= -0.20)
+                    .sort((a, b) => a.performance.min1 - b.performance.min1);
+            }
+
+            displayCryptos(cryptosToDisplay);
         })
         .catch(error => {
             console.error('Error fetching crypto data:', error);
@@ -43,14 +56,28 @@ function displayCryptos(cryptos) {
         const listItem = document.createElement('li');
         listItem.innerHTML = `
       <img src="https://cryptobubbles.net/backend/${crypto.image}" alt="${crypto.name}" width="20" height="20">
-      ${crypto.name} (${crypto.symbol}) - Market Cap: ${crypto.marketcap.toLocaleString()} - 1 Min Gain: ${crypto.performance.min1}%
+      ${crypto.name} (${crypto.symbol}) - Market Cap: ${crypto.marketcap.toLocaleString()} - 1 Min Change: ${crypto.performance.min1}%
     `;
         cryptoListElement.appendChild(listItem);
     });
 }
 
+gainersTab.addEventListener('click', () => {
+    activeTab = 'gainers';
+    gainersTab.classList.add('active');
+    losersTab.classList.remove('active');
+    fetchCryptos();
+});
+
+losersTab.addEventListener('click', () => {
+    activeTab = 'losers';
+    gainersTab.classList.remove('active');
+    losersTab.classList.add('active');
+    fetchCryptos();
+});
+
 // Fetch the data immediately on load
-fetchTopGainingCryptos();
+fetchCryptos();
 
 // Fetch the data every 60 seconds
-setInterval(fetchTopGainingCryptos, 60000);
+setInterval(fetchCryptos, 60000);

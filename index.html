@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Top Gaining Cryptos</title>
+    <title>Top Gaining and Losing Cryptos</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
       body {
@@ -20,10 +20,29 @@
         vertical-align: middle;
         margin-right: 10px;
       }
+      .tabs {
+        display: flex;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+      .tab {
+        margin-right: 20px;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .tab.active {
+        background-color: #ccc;
+      }
     </style>
   </head>
   <body>
-    <h2>Top Gaining Cryptos</h2>
+    <h2>Top Gaining and Losing Cryptos</h2>
+    <div class="tabs">
+      <div class="tab active" id="gainers-tab">Gainers</div>
+      <div class="tab" id="losers-tab">Losers</div>
+    </div>
     <ul id="crypto-list"></ul>
     <script src="script.js"></script>
   </body>
