@@ -1,4 +1,4 @@
-const apiUrl = '/api/crypto'; // Use relative path for API calls
+const apiUrl = 'http://localhost:3000/api/crypto'; // Use relative path for API calls
 const cryptoListElement = document.getElementById('crypto-list');
 const gainersTab = document.getElementById('gainers-tab');
 const losersTab = document.getElementById('losers-tab');
@@ -54,9 +54,13 @@ function displayCryptos(cryptos) {
     cryptoListElement.innerHTML = ''; // Clear existing list
     cryptos.forEach(crypto => {
         const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-start';
         listItem.innerHTML = `
-      <img src="https://cryptobubbles.net/backend/${crypto.image}" alt="${crypto.name}" width="20" height="20">
-      ${crypto.name} (${crypto.symbol}) - Market Cap: ${crypto.marketcap.toLocaleString()} - 1 Min Change: ${crypto.performance.min1}%
+      <div class="ms-2 me-auto">
+        <div class="fw-bold"><img style="margin-right: 10px;" src="https://cryptobubbles.net/backend/${crypto.image}" alt="${crypto.name}" width="30" height="30">${crypto.name} (${crypto.symbol})</div>
+        Market Cap: ${crypto.marketcap.toLocaleString()}
+      </div>
+      <span class="badge text-bg-primary rounded-pill fs-5">${crypto.performance.min1}%</span>
     `;
         cryptoListElement.appendChild(listItem);
     });
