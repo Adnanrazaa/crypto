@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:3000/api/crypto'; // Use relative path for API calls
+const apiUrl = '/api/crypto'; // Use relative path for API calls
 const cryptoListElement = document.getElementById('crypto-list');
 const gainersTab = document.getElementById('gainers-tab');
 const losersTab = document.getElementById('losers-tab');
