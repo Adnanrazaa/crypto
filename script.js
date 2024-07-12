@@ -23,7 +23,7 @@ const specificCoins = [
     'SPELL', 'LUNC', 'LUNA2', 'LDO', 'ICP', 'APT', 'QNT', 'FET', 'FXS',
     'HOOK', 'MAGIC', 'T', 'RNDR', 'HIGH', 'MINA', 'ASTR', 'PHB', 'GMX', 'CFX',
     'STX', 'BNX', 'ACH', 'SSV', 'CKB', 'PERP', 'TRU', 'LQTY', '', 'ID',
-    'ARB', 'JOE', 'TLM', 'AMB', 'LEVER', 'RDNT', 'HFT', 'XVS', 'ETHBTC',
+    'ARB', 'JOE', 'TLM', 'AMB', 'LEVER', 'RDNT', 'HFT', 'XVS',
     'BLUR', 'EDU', 'SUI', 'PEPE', 'FLOKI', 'UMA', 'KEY', 'COMBO',
     'NMR', 'MAV', 'XVG', 'WLD', 'PENDLE', 'ARKM', 'AGLD', 'YGG', 'DODOX',
     'BNT', 'OXT', 'SEI', 'CYBER', 'HIFI', 'ARK', 'FRONT', 'BICO', 'LOOM',
@@ -31,16 +31,16 @@ const specificCoins = [
     'TIA', 'CAKE', 'MEME', 'TWT', 'TOKEN', 'ORDI', 'STEEM', 'BADGER', 'ILV',
     'NTRN', 'KAS', 'BEAMX', 'BONK', 'PYTH', 'SUPER', 'USTC', 'ONG',
     'ETHW', 'JTO', 'SATS', 'AUCTION', 'RATS', 'ACE', 'MOVR', 'NFP',
-    'BTC', 'ETH', 'BNB', 'SOL', 'XRP', 'AI', 'XAI',
+    'BTC', 'BNB', 'SOL', 'XRP', 'AI', 'XAI',
     'DOGE', 'WIF', 'MANTA', 'ONDO', 'LSK', 'ALT', 'JUP', 'ZETA',
     'RONIN', 'DYM', 'SUI', 'OM', 'LINK', 'PIXEL', 'STRK',
     'MAVIA', 'ORDI', 'GLM', 'PORTAL', 'TON', 'AXL', 'MYRO',
     'PEPE', 'METIS', 'AEVO', 'WLD', 'VANRY', 'BOME',
-    'ETHFI', 'AVAX', 'SHIB', 'BTC', 'ETH', 'ENA',
+    'ETHFI', 'AVAX', 'SHIB', 'ENA',
     'WUSDT', 'WIF', 'BCH', 'TNSR', 'SAGA', 'LTC',
     'NEAR', 'TAO', 'OMNI', 'ARB', 'NEO', 'FIL',
     'MATIC', 'TIA', 'BOME', 'REZ', 'ENA',
-    'ETHFI', 'BONK', 'BB', 'NOT', 'TURBO', 'IOU',
+    'BONK', 'BB', 'NOT', 'TURBO', 'IOU',
     'ZK', 'MEW', 'LISTA', 'ZRO', 'CRV'
 ];
 
@@ -48,17 +48,14 @@ function fetchCryptos() {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            // Filter to include only specific coins
             const filteredData = data.filter(crypto => specificCoins.includes(crypto.symbol));
             let cryptosToDisplay;
 
             if (activeTab === 'gainers') {
-                // Filter and sort based on positive performance for the selected time frame
-                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance[selectedTimeFrame] >= 0.20)
+                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance[selectedTimeFrame] >= 0.10)
                     .sort((a, b) => b.performance[selectedTimeFrame] - a.performance[selectedTimeFrame]);
             } else {
-                // Filter and sort based on negative performance for the selected time frame
-                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance[selectedTimeFrame] <= -0.20)
+                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance[selectedTimeFrame] <= -0.10)
                     .sort((a, b) => a.performance[selectedTimeFrame] - b.performance[selectedTimeFrame]);
             }
 
