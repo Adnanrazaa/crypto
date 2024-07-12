@@ -87,15 +87,18 @@ function displayCryptos(cryptos) {
                 <div class="me-3">Price (Calculated): $${price.toFixed(2)}</div>
                 <div class="me-3">Price (API): $${crypto.price.toFixed(2)}</div>
                 <div class="me-3">Volume (24h): $${crypto.volume.toLocaleString()}</div>
-                <div class="me-3">Circulating Supply: ${crypto.circulating_supply.toLocaleString()} ${crypto.symbol}</div>
-                <div class="me-3">Performance (1 min): ${crypto.performance.min1}%</div>
-                <div class="me-3">Performance (1 hour): ${crypto.performance.hour}%</div>
-                <div class="me-3">Performance (1 day): ${crypto.performance.day}%</div>
+
             </div>
             </div>
             <span class="badge text-bg-primary rounded-pill fs-5">${crypto.performance[selectedTimeFrame]}%</span>
         `;
+
+        /*  `                <div class="me-3">Circulating Supply: ${crypto.circulating_supply.toLocaleString()} ${crypto.symbol}</div>
+                 <div class="me-3">Performance (1 min): ${crypto.performance.min1}%</div>
+                 <div class="me-3">Performance (1 hour): ${crypto.performance.hour}%</div>
+                 <div class="me-3">Performance (1 day): ${crypto.performance.day}%</div>` */
         cryptoListElement.appendChild(listItem);
+
     });
 }
 
