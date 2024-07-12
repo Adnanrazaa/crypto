@@ -31,15 +31,32 @@
       .tab.active {
         background-color: #ccc;
       }
+      .dropdown {
+        margin-bottom: 20px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h2>Top Gaining and Losing Cryptos</h2>
+      <div class="dropdown">
+        <label for="time-frame-select">Select Time Frame: </label>
+        <select id="time-frame-select" class="form-select">
+          <option value="min1">1 Minute</option>
+          <option value="min5">5 Minutes</option>
+          <option value="min15">15 Minutes</option>
+          <option value="hour">Hour</option>
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+          <option value="year">Year</option>
+        </select>
+      </div>
       <div class="tabs">
         <div class="tab active" id="gainers-tab">Gainers</div>
         <div class="tab" id="losers-tab">Losers</div>
       </div>
+
       <ol class="list-group list-group-numbered" id="crypto-list"></ol>
     </div>
     <script src="script.js"></script>

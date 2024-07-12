@@ -2,7 +2,9 @@ const apiUrl = '/api/crypto'; // Use relative path for API calls
 const cryptoListElement = document.getElementById('crypto-list');
 const gainersTab = document.getElementById('gainers-tab');
 const losersTab = document.getElementById('losers-tab');
+const timeFrameSelect = document.getElementById('time-frame-select');
 let activeTab = 'gainers';
+let selectedTimeFrame = 'min1';
 
 const specificCoins = [
     'BTC', 'ETH', 'BCH', 'XRP', 'EOS', 'LTC', 'TRX', 'ETC', 'LINK', 'XLM',
@@ -48,18 +50,16 @@ function fetchCryptos() {
         .then(data => {
             // Filter to include only specific coins
             const filteredData = data.filter(crypto => specificCoins.includes(crypto.symbol));
-            //const filteredData = data;
-
             let cryptosToDisplay;
 
             if (activeTab === 'gainers') {
-                // Filter and sort based on positive min1 performance
-                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance.min1 >= 0.20)
-                    .sort((a, b) => b.performance.min1 - a.performance.min1);
+                // Filter and sort based on positive performance for the selected time frame
+                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance[selectedTimeFrame] >= 0.20)
+                    .sort((a, b) => b.performance[selectedTimeFrame] - a.performance[selectedTimeFrame]);
             } else {
-                // Filter and sort based on negative min1 performance
-                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance.min1 <= -0.20)
-                    .sort((a, b) => a.performance.min1 - b.performance.min1);
+                // Filter and sort based on negative performance for the selected time frame
+                cryptosToDisplay = filteredData.filter(crypto => crypto.performance && crypto.performance[selectedTimeFrame] <= -0.20)
+                    .sort((a, b) => a.performance[selectedTimeFrame] - b.performance[selectedTimeFrame]);
             }
 
             displayCryptos(cryptosToDisplay);
@@ -79,7 +79,7 @@ function displayCryptos(cryptos) {
         <div class="fw-bold"><img style="margin-right: 10px;" src="https://cryptobubbles.net/backend/${crypto.image}" alt="${crypto.name}" width="30" height="30">${crypto.name} (${crypto.symbol})</div>
         Market Cap: ${crypto.marketcap.toLocaleString()}
       </div>
-      <span class="badge text-bg-primary rounded-pill fs-5">${crypto.performance.min1}%</span>
+      <span class="badge text-bg-primary rounded-pill fs-5">${crypto.performance[selectedTimeFrame]}%</span>
     `;
         cryptoListElement.appendChild(listItem);
     });
@@ -96,6 +96,11 @@ losersTab.addEventListener('click', () => {
     activeTab = 'losers';
     gainersTab.classList.remove('active');
     losersTab.classList.add('active');
+    fetchCryptos();
+});
+
+timeFrameSelect.addEventListener('change', (event) => {
+    selectedTimeFrame = event.target.value;
     fetchCryptos();
 });
 
